@@ -1,0 +1,32 @@
+/* 1、父级div定义伪类：after和zoom
+
+   /*清除浮动代码*/
+.clearfloat:after {
+    display: block;
+    clear: both;
+    content: "";
+    visibility: hidden;
+    height: 0
+}
+
+/* or */
+/* .clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+} */
+
+.clearfloat {
+    /* zoom(IE转有属性)可解决ie6,ie7浮动问题 */
+    zoom: 1
+}
+
+/* 2.在结尾处添加空div标签clear:both */
+/* 就要增加很多空div */
+
+/* 3.父级div定义height */
+/* 只适合高度固定的布局，要给出精确的高度，如果高度和父级div不一样时，会产生问题 */
+
+/* 4.父级div定义overflow:hidden */ 
+/* 缺点：不能和position配合使用，因为超出的尺寸的会被隐藏 */

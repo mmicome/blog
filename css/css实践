@@ -1,0 +1,7 @@
+1. js 控制 类名， 样式类名分离（通用样式类名：model-function, 自定义类名：model 首字母大写 + function）, 有效分离业务属性， 功能属性
+2. 状态驱动样式： isSelected/is-selected, isActive/is-active, isClick/is-click, isFullScreen/is-fullscreen...  EP: a{}, a.isSelected {}, 
+   避免直接操作css
+3. 避免css 样式重复定义导致重绘重排
+4. 样式文件模块化， 通用类， 私有类， 图标类（命名统一）， 
+5. 公共item（item指结构类似的一组dom集合中的一个子集合） 项使用class 明名， 便于批量获取， 独立部分使用id 命名， 提高效率
+6. 表单输入item项id命名和数据库字段对应一致， 尤其对包含大量字段的html文档有重要意义

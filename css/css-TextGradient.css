@@ -1,0 +1,16 @@
+/* 
+* title: 文本渐变
+* dom: <h1 test="文本渐变">文本渐变</h1> 
+*/
+h1 {
+  color: blue;
+  position: relative;
+}
+
+h1::before {
+  position: absolute;
+  content: attr(text);
+  color: red;
+  z-index: 10;
+  -webkit-mask: linear-gradient(to left, pink, transparent)
+}

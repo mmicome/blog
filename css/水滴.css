@@ -1,0 +1,6 @@
+			display: inline-block;
+			width: 4em;
+			height: 4em;
+			border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+			background-color: #07C;
+			transform: rotate(-45deg);

@@ -1,0 +1,16 @@
+https://segmentfault.com/q/1010000009276145/a-1020000009279643
+
+https://fakefish.github.io/react-webpack-cookbook/Split-app-and-vendors.html
+
+https://github.com/ShowJoy-com/showjoy-blog/issues/7
+
+https://juejin.im/post/5a3b8ae06fb9a0451f311cbe
+
+https://cnodejs.org/topic/58396960c71e606e36aed1db
+
+
+https://www.webpackjs.com/concepts/entry-points
+
+对象语法 `webpack-merge`
+分离 应用程序(app) 和 第三方库(vendor) 入口, `长效缓存` `CommonsChunkPlugin `
+多页面应用程序 `CommonsChunkPlugin`
