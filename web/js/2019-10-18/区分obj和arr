@@ -1,0 +1,19 @@
+## one
+
+{}.constructor   //Object
+[].constructor   //Array
+
+## two
+
+[] instanceof Array // false
+{} instanceof Array // true
+
+## three
+
+Object.prototype.toString.call([])  //['object Array']
+Object.prototype.toString.call({})  //["object Object"]
+
+## fuur
+
+Array.isArrray([])  //true
+Array.isArray({})   //false
