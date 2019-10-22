@@ -93,4 +93,4 @@ server {
 
 > 总结:
 
-这里只讨论了nginx相关的部署，实际上vue-router文档上是有相关的配置例子的。
+这里只讨论了nginx相关的部署，实际上[vue-router](https://router.vuejs.org/zh/guide/essentials/history-mode.html#%E5%90%8E%E7%AB%AF%E9%85%8D%E7%BD%AE%E4%BE%8B%E5%AD%90)文档上是有相关的配置例子的。
