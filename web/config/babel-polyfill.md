@@ -15,12 +15,12 @@ module.exports = {
 ```sh
 npm install --save @babel/polyfill
 ```
-```
+```js
 //babelrc
 presets: ["@babel/preset-react"，["@babel/preset-env", {
     "useBuiltIns": "usage",
     "corejs": 3
   }]],
 ```
-## ![参考文档](https://www.babeljs.cn/docs/babel-polyfill)
+## [参考文档](https://www.babeljs.cn/docs/babel-polyfill)
 
