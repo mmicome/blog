@@ -1,4 +1,13 @@
- eslint: {
+// 转换 JSX 语法
+npm install --save-dev @babel/preset-react
+//o include the polyfill you need to require it at the top of the entry point to your application.
+//Make sure it is called before all other code/require statements!
+npm install --save @babel/polyfill
+npm install --save-dev @babel/preset-env
+
+
+presets: ["@babel/preset-react"]
+eslint: {
     options: {
         quiet: false,
         //  configFile: 'eslint.json',
@@ -14,3 +23,5 @@
     },
     //  target: ['Gruntfile.js']
 }
+
+//相关： https://www.babeljs.cn/docs/config-files
