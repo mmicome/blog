@@ -1,5 +1,6 @@
 // 转换 JSX 语法
 npm install --save-dev @babel/preset-react
+//https://www.babeljs.cn/docs/babel-polyfill
 //o include the polyfill you need to require it at the top of the entry point to your application.
 //Make sure it is called before all other code/require statements!
 npm install --save @babel/polyfill
