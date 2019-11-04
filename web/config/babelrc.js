@@ -5,8 +5,12 @@ npm install --save-dev @babel/preset-react
 npm install --save @babel/polyfill
 npm install --save-dev @babel/preset-env
 
-
-presets: ["@babel/preset-react"]
+//If useBuiltIns: 'usage' is specified in .babelrc then do not include @babel/polyfill in either 
+// webpack.config.js entry array nor source. Note, @babel/polyfill still needs to be installed.
+presets: ["@babel/preset-react"，["@babel/preset-env", {
+    "useBuiltIns": "usage",
+    "corejs": 3
+  }]],
 eslint: {
     options: {
         quiet: false,
@@ -23,5 +27,3 @@ eslint: {
     },
     //  target: ['Gruntfile.js']
 }
-
-//相关： https://www.babeljs.cn/docs/config-files
