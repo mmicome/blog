@@ -1,0 +1,32 @@
+## compare
+
+v-if 是'真正的'条件渲染,因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建.
+
+v-if 也是惰性的,如果在初始渲染时条件为假,那么什么都不做- - 直到条件第一次为真的时候才会开始渲染条件块,
+
+v-show 就简单得多- - 不管初始条件是什么,元素总会被渲染,并且只是简单的基于css进行切换.
+
+v-if 有更高的切换开销,而 v-show 有更高的出事渲染开销.因此,如果需要非常频繁的切换,那么使用v-show好一点;如果在运行时条件不太可能改变,则使用v-if 好点.
+
+2.实践结果
+
+摘录: 如果用v-if的话，整个dom结构压根就不会出现在页面上，如果是用v-show的话，要视后面的条件来定，如果是true,则显示，如果
+为false,则加上style=”display:none”. v-show相当于是v-style=”display:none”和v-style=”display:block”的快捷方式。
+
+## 目前问题
+
+> v-show 不起作用: （使用v-if）
+el-table-column
+el-tab
+
+> v-if(el-tab问题解决)
+在<el-tab-pane>使用v-if可能会出现key重复问题，这样会导致这个tab无法更新， 手动设置key值
+
+具体报错信息：`Duplicate keys detected: 'tab-xxx'. This may cause an update error`
+```
+<el-tab-pane :key="0" label="用户管理" name="first" ref="first" >...</el-tab-pane>
+        <el-tab-pane :key="1" label="配置管理" name="second" ref="second"></el-tab-pane>
+        <el-tab-pane :key="2" label="角色管理" name="third" ref="third"></el-tab-pane>
+        <el-tab-pane :key="3" label="定时任务补偿" name="fourth" ref="fourth" >
+</el-tab-pane>
+```
