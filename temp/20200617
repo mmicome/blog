@@ -26,3 +26,8 @@ https://www.cnblogs.com/onepixel/p/5126046.html
 
 array
 https://www.cnblogs.com/snandy/archive/2011/04/04/2005156.html
+
+vue
+
+arr.splice(0)
+Array.push.apply(arr, [1,2,3])
