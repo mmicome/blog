@@ -33,9 +33,11 @@ vue
 https://segmentfault.com/a/1190000015932467
 https://www.jianshu.com/p/b7292d01c361
 https://juejin.im/post/5b174de8f265da6e410e0b4e
+https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa
 arr.splice(0)
 Array.push.apply(arr, [1,2,3])
 
 chrome dev
 
 https://www.jianshu.com/p/504bde348956
+https://stackoverflow.com/questions/33262415/what-is-initiator-other-in-network-in-chrome-console
