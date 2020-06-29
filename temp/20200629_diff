@@ -11,3 +11,5 @@ props attribute
 2 组件上自定义的属性和根节点原生属性没有匹配，则作为attribute 添加在根节点
 
 命令式vs声明式
+https://www.cnblogs.com/sirkevin/p/8283110.html
+https://blog.csdn.net/chenchaofuck1/article/details/51898225
