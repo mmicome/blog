@@ -13,3 +13,6 @@ https://juejin.im/post/5dd3d4dae51d453d493092da
 自定义组件 v-model
 https://cn.vuejs.org/v2/guide/components-custom-events.html#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E4%BB%B6%E7%9A%84-v-model
 https://cn.vuejs.org/v2/guide/components.html
+
+addEventListener
+https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener
