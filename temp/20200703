@@ -9,3 +9,11 @@ https://segmentfault.com/a/1190000016927601
 https://www.cnblogs.com/Ruth92/p/6384057.html
 https://juejin.im/entry/59db9bac51882578db27ad4f
 https://github.com/youngwind/blog/issues/113
+
+
+function.name
+Function.prototype.getName = function(){
+
+    return this.name || this.toString().match(/function\s*([^(]*)\(/)[1]
+
+}
