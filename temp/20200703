@@ -13,7 +13,5 @@ https://github.com/youngwind/blog/issues/113
 
 function.name
 Function.prototype.getName = function(){
-
-    return this.name || this.toString().match(/function\s*([^(]*)\(/)[1]
-
+    return this.name || this.toString().match(/function\s*([^(]*)\(/)[1].trim();
 }
