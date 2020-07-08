@@ -1,4 +1,10 @@
 cdn 静态资源img /css/ icon/ third js /common tool
-json map （版本控制）
-  js
-  组件
+
+module
+  json map （版本控制）
+     js
+     组件
+
+global
+  self 版本控制
+  module 不控制
