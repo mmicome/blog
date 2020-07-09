@@ -1,0 +1,62 @@
+## @SpringBootApplication注解
+
+- @SpringBootConfiguration
+
+@SpringBootConfiguration注解是由@Configuration来注解的，因此也就表示Application类本身就是一个bean
+
+- @ComponentScan
+
+@ComponentScan注解的功能与我们之前在xml文件配置的的功能是一样的，而上面也提到Application类放在源码的根目录下，
+其实就是与这个注解有关。@ComponentScan在没有指明basePackages忏属性的时候，默认会扫描该注解所在的类的包及其子包下的所有@Component注解过的类，
+包括@Controller，@Service，@Configuration这些注解。这也就是为什么我们不用做任何配置，就可以将springboot应用中的类扫描为bean。
+
+- @EnableAutoConfiguration
+
+@EnableAutoConfiguration注解，从名字我们也可以看出，是开启自配置配置的。从源码中我们可以看到，
+该注解中有一个@Import(AutoConfigurationImportSelector.class)，
+而其中发挥自动配置作用就是AutoConfigurationImportSelector类。
+
+从AutoConfigurationImportSelector的源码中可以知道，该类是通过SpringFactoriesLoader来加载自动配置的类的，
+从而进一步通过这些自动配置的类来完成默认配置。从而这也就解决了，为什么我们使用springboot的时候压根就不需要配置太多，
+原因就是因为SpringBoot通过自动配置将已经封装在jar包中的自动配置类加载进来生成了bean。而对于SpringFactoriesLoader的原理我们下面会说。
+
+## SpringApplication.run()方法
+
+Application类是通过SpringApplication类的静态run方法来启动应用的。打开这个静态方法，该表态方法真正执行的是两部分：
+
+- new SpringApplication()
+- 执行对象run()方法
+
+在SpringApplication的构造方法中，我们可以看到有如下几个步骤：
+
+推断当前的环境是否是web环境，其中springboot2.0中又添加了reactive环境。
+初始化ApplicationContextInitilizer，其中的原理也是通过SpringFactoriesLoader来实现的。
+初始化ApplicationListener，原理同上。
+推断当前启动的main方法所在的类。
+
+### 推断当前应用环境
+springboot在启动时需要推断当前的应用环境，springboot2.0当中一共定义了三种环境：none, servlet, reactive。none表示当前的应用即不是一个web应用也不是一个reactive应用，是一个纯后台的应用。servlet表示当前应用是一个标准的web应用。reactive是spring5当中的新特性，表示是一个响应式的web应用。而判断的依据就是根据Classloader中加载的类。如果是servlet，则表示是web，如果是DispatcherHandler，则表示是一个reactive应用，如果两者都不存在，则表示是一个非web环境的应用。
+
+### 初始化ApplicationContextInitializer
+
+把ApplicationContextInitializer都加载了之后，还要进行一项工作就是会对所有的ApplicationContextInitializer实现类生成对象，SpringApplication中有一个属性，List类型的initializers，用来存储这些实例化后的对象，这些对象存储之后，会在后面的启动过程中初始化ApplicationContext。
+
+初始化ApplicationListener
+ApplicationListener的过程与ApplicationContextInitializer是一样的，不过因为SpringFactoiesLoader已经扫描过一次了，所以这次执行的时候，就会直接从SpringFactoiesLoader中的静态map中取出值即可。同样的，也需要将所有的实现类生成对象，并保存在SpringApplication对象的listener list属性中。
+
+注：springboot初始化过程中主要是扫描两个spring.factoies文件，其中定义的key-value中的类，是整个启动过程中要用到的。一个是spring-boot-2.0.3.RELEASE中的，一个是spring-boot-autoconfigure包中的。这两个jar包中的文件定义整个启动流程中要执行的所有默认配置好的类。
+
+## 推断整个应用的main方法所在的类
+
+其实我们已经从main方法中启动了，为什么后面还要再推断一下呢？其实这样做的目的，主要是为了将该类的对象存储在SpringApplication的对象中，创建日志Logger和打印日志用的。我们在启动时会看到主类的类名以及其他的打印信息，都是通过该对象来创建logger和打印日志的。
+
+**总结：**从上面几个步骤中我们可以看出，前期的new SpringApplication()方法中主要是起到了一个预加载的功能，将前期的环境判断，后面要用到的对象都准备好，到run执行的时候就直接拿出来用就好了，也是大大方便了后面run方法执行的过程。
+
+## 备注
+
+- **SpringFactoiesLoader**
+
+SpringFactoiesLoader会扫描所有jar包中的META-INF/spring.factoies文件，该文件的格式都是key=value的格式。key是一个接口的名字，value是实现类的名字，如果value有多个值，则用逗号分隔。而我们上面提到的@EnableAutoConfiguration也是利用这个原理去扫描所有的自动配置类，以该注解的全限定类名作为key，所有的默认配置类为值。SpringFactoiesLoader内部有一个静态的双层ConcurrentMap，用来存储这些key-value，第一层map的key是classloader，springboot默认的classloader是appClassLoader，value则是一个MultiValueMap，是spring自己实现的一个hashmap。而这个MultiValueMap的key就是spring.factoies文件中的key，value是一个list，即spring.factoies文件中的value。SpringFactoiesLoader利用缓存机制，只在第一次扫描所有的META-INF/spring.factoies文件时，就把所有的key-value都加载到这个map中，后面再进从中获取值时，直接从map中取就可以了，就不需要再重新扫描了。
+
+
+

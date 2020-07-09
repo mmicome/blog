@@ -1,0 +1,26 @@
+## 模板
+
+//tmp
+```vue
+<template>
+  slot
+      span:icon
+      span:ttitle
+      span:number
+</template>
+
+style scoped
+  .icon
+  .title
+  .number
+```
+
+## 页面
+
+import tmp from tmp
+
+<tmp>
+      span:icon data
+      span:ttitle data
+      span:number data
+</tmp>

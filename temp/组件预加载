@@ -1,0 +1,5 @@
+displaay none  v-show  v-if 影藏预缓存组件， 组件样式无效， 样式未执行
+
+visibility: hidden 有效
+
+通过 :is  mounted钩子 进行处理

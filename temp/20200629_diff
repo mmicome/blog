@@ -1,0 +1,15 @@
+v-bind.prop
+https://segmentfault.com/a/1190000012820563
+https://juejin.im/post/5bea695ae51d45196e141f7f
+https://stackoverflow.com/questions/6003819/what-is-the-difference-between-properties-and-attributes-in-html#answer-6004028
+
+组件的
+props attribute
+
+组件上绑定的属性 如果和props 相同，则作为props传入参数， 如果不相同，分两种情况
+1 组件根节点的原生属性和组件设置的属性一致， 则作为property 绑定到原生属性 
+2 组件上自定义的属性和根节点原生属性没有匹配，则作为attribute 添加在根节点
+
+命令式vs声明式
+https://www.cnblogs.com/sirkevin/p/8283110.html
+https://blog.csdn.net/chenchaofuck1/article/details/51898225

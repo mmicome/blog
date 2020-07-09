@@ -1,0 +1,36 @@
+动态组件
+概念
+https://juejin.im/post/5c3c7435e51d4551cd71cf5c
+使用
+https://blog.csdn.net/qq_39459412/article/details/104199823
+https://blog.csdn.net/yicaifenchen8/article/details/104002407
+https://blog.csdn.net/qq_39389646/article/details/101062532
+https://blog.csdn.net/ajizai1928/article/details/102131724 (远程加载sfc，客户端解析模式)
+https://juejin.im/post/5e0085fa518825127736633b(远程加载sfc，服务端解析模式)
+
+
+工具
+https://blog.csdn.net/arest/article/details/52863341
+https://github.com/wisedu/wec-vue/tree/master/wec-widget
+
+https://blog.csdn.net/bugs4j/article/details/106011553
+https://github.com/bug4j/vue-cdn-component-loader
+
+https://github.com/mqhe2007/vue-module-loader
+
+其他
+https://github.com/jamesmartin/react-remote-component-demo
+https://www.zhihu.com/question/65238528/answer/228925201
+
+
+git 模块化开发
+https://www.jianshu.com/p/9000cd49822c
+https://www.cnblogs.com/lsgxeva/p/8540758.html
+https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E5%AD%90%E6%A8%A1%E5%9D%97
+
+
+$props $attrs 
+https://blog.csdn.net/viewyu12345/article/details/84031295
+
+微前端架构
+https://juejin.im/post/5b45d0ea6fb9a04fa42f9f1a
