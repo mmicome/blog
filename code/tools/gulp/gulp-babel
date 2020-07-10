@@ -1,0 +1,24 @@
+# gulp-babel (https://www.npmjs.com/package/gulp-babel)
+
+## gulp-babel使用报错：Cannot find module '@babel/core'
+
+    //是用旧版的包安装
+
+    npm install gulp-babel --save-dev
+
+    npm install babel-preset-env --save-dev
+
+    npm install babel-core --save-dev
+    
+    //另外，还需要在根目录下加 .babelrc 文件（重点，必须加），内容是：
+
+    {
+        "presets": ["env"]
+    }
+    //安装成功以后，在gulpfile.js中相应位置加上
+
+    gulp.src()
+    .pipe(babel())
+    .pipe()
+    
+## 
