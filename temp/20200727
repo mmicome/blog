@@ -9,3 +9,6 @@
   模块一级路径不要置空，至少是 '/',
   单个页面作为一级路由， 前缀加 '/'
   子路径前面不要加 '/', 不要父路径
+
+https://juejin.im/post/5b97badbe51d450e580b1640
+https://juejin.im/post/5d9ff02df265da5baf4104d9
