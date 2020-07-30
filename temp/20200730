@@ -12,3 +12,7 @@ vue -V
 npm info vue
 局部（当前项目）查vue版本号
 npm list vue version
+
+滚动条
+https://blog.csdn.net/github_38589282/article/details/73823133
+https://blog.csdn.net/yipulash/article/details/54773079
