@@ -1,0 +1,21 @@
+https://blog.csdn.net/javao_0/article/details/85162458
+https://github.com/mrdulin/blog/issues/43
+https://skychx.github.io/blog/
+
+vue-cli3.0中 如何取消打包后自动压缩代码
+https://segmentfault.com/q/1010000021889020/a-1020000021890052
+
+
+查看vue-cli版本号
+vue -V
+全局查看vue版本号
+npm info vue
+局部（当前项目）查vue版本号
+npm list vue version
+
+滚动条
+https://blog.csdn.net/github_38589282/article/details/73823133
+https://blog.csdn.net/yipulash/article/details/54773079
+
+
+https://segmentfault.com/a/1190000019920162
