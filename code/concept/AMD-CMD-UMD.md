@@ -1,5 +1,12 @@
 # AMD , CMD, CommonJS，ES Module，UMD
 
+模块化开发需求,在JS早期，使用script标签引入JS，会造成以下问题：
+
+- 加载的时候阻塞网页渲染，引入JS越多，阻塞时间越长。
+- 容易污染全局变量。
+- js文件存在依赖关系，加载必须有顺序。项目较大时，依赖会错综复杂。
+- 引入的JS文件过多，不美观，且不易于管理。
+
 > AMD 与 CMD：
 
 AMD是 RequireJS 在推广过程中对模块定义的规范化产出。
@@ -53,6 +60,10 @@ http.createService(...).listen(3000);
 ```
 
 commonJS用同步的方式加载模块。在服务端，模块文件都存在本地磁盘，读取非常快，所以这样做不会有问题。但是在浏览器端，限于网络原因，更合理的方案是使用异步加载。
+
+  a. require命令第一次加载模块时，执行整个脚本，在内存中生成对象
+  b. 多次执行require命令再次加载该模块时，不会再执行该脚本，直接从缓存中取值
+  c. CommonJS加载模块是同步加载模块
 
 > 二、AMD和require.js
 
@@ -160,7 +171,33 @@ seajs.use(['math.js'], function(math){
 });
 ```
 
-> 四、ES6 Module
+> 四、UMD规范
+UMD（Universal Module Definition）通用模块定义，为了兼容AMD、CMD和无模块化开发规范
+
+```js
+ (function (root, factory) {
+  // 判断是否是AMD/CMD
+  if (typeof define === 'function') {
+   define([], factory)
+  } else if (typeof exports === 'object') {
+   // Node CommonJS规范
+   module.exports = factory()
+  } else {
+   // 浏览器环境
+   root.someAttr = factory
+  }
+ })(this, function () {
+  let add = function (a, b) {
+   return a + b
+  }
+  return {
+   add,
+   module: 'UMD'
+  }
+ })
+```
+
+> 五、ES6 Module
 
 ES6 在语言标准的层面上，实现了模块功能，而且实现得相当简单，旨在成为浏览器和服务器通用的模块解决方案。其模块功能主要由两个命令构成：export和import。export命令用于规定模块的对外接口，import命令用于输入其他模块提供的功能。
 
@@ -192,3 +229,7 @@ function test(ele) {
 }
 ```
 ES6的模块不是对象，import命令会被 JavaScript 引擎静态分析，在编译时就引入模块代码，而不是在代码运行时加载，所以无法实现条件加载。也正因为这个，使得静态分析成为可能。
+
+## 参考
+
+- [AMD, CMD, CommonJS和UMD](https://www.jianshu.com/p/bd4585b737d7)

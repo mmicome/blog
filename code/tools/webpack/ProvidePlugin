@@ -1,0 +1,91 @@
+webpack配置ProvidePlugin后，在使用时将不再需要import和require进行引入，直接使用即可。
+
+在webpack.dev.conf.js和webpack.prod.conf.js中添加
+
+1 plugins: [
+2     ...
+3     new webpack.ProvidePlugin({
+4       'api': 'api'
+5     }),
+6     ...
+7 ]
+
+使用场景：
+
+将所有接口调用方法放在 src/api/index.js中，在组件中无需import即可调用
+
+相关配置：
+
+在webpack.base.conf.js中添加
+
+1  resolve: {
+2     extensions: ['.js', '.vue', '.json'],
+3     alias: {
+4       'vue$': 'vue/dist/vue.esm.js',
+5       '@': resolve('src'),
+6       'api': resolve('src/api/index.js'),
+7     }
+8  },
+
+在组件中使用：
+
+
+1 ...
+2 mounted() {
+3     api.getData().then(res => {
+4       this.items = res
+5     }).catch(err => {
+6       console.log(err)
+7     })
+8 },
+9 ...
+
+自动引入自定义模块，需要配合alias
+eslint的globals增加$_的配置
+globals: {
+    _: 'readonly', // 或者true
+},
+
+ProvidePlugin注入的全局变量，在script中是完全没有问题的，但是在template中使用时会有一些小问题。
+
+plugins: [
+    new webpack.ProvidePlugin({
+      $_: 'lodash',
+    }),
+],
+
+如下面这样：
+<p>{{$_(...)}</p>
+data() {
+    return {
+         $_,
+    }
+}
+
+why
+
+Vue的模板语法中，不支持直接对以$或者_开头的自定义data属性，目的是避免与Vue的内部冲突。
+
+
+[Vue warn]: 
+Property "$_" must be accessed with "$data.$_".
+Because properties starting with "$" or "_" are not proxied in the Vue instance to prevent conflicts with Vue internals
+
+几种方式解决这个问题：
+
+通过$data.$_访问
+<p>{{$data.$_(...)}</p>
+data中重命名后绑定
+<p>{{globalLodash(...)}</p>
+
+data() {
+    return {
+          globalLodash: $_,
+    }
+}
+methods中绑定(最推荐)
+<p>{{$_(...)}</p>
+methods: {
+    $_
+}
+
