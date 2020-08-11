@@ -7,3 +7,11 @@ https://segmentfault.com/q/1010000013569615
 vue（element-ui）
 单页子组件在父组件中，如果直接在原生标签中使用，$parent指向父组件， 如果在框架的组件标签或者自定义组件中（即统称为其他子组件中）使用， $parent指向 嵌套父层组件，
 即$parent 是组件维度的， 而不是文件维度的，可以通过$parent.$children 访问到父页面同级别的组件
+
+node 调试
+https://www.jianshu.com/p/611e7be13655
+http://www.ruanyifeng.com/blog/2018/03/node-debugger.html
+https://nodejs.org/zh-cn/docs/guides/debugging-getting-started/
+
+文件下载
+https://www.jianshu.com/p/d0abe22a7157
