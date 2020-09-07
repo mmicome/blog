@@ -1,0 +1,11 @@
+MutationObserver
+
+强制更新组件
+
+key=Math.random()
+v-if
+
+强制重写父组件prop
+this.data.splice(0)
+Array.prototype.push.apply(this.data, this.cache)
+
