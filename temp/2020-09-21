@@ -4,3 +4,9 @@ webpack 配置css解析
                 test: /\.scss$/,
                 use: ['style-loader','css-loader', 'sass-loader']
             }, 
+
+在使用Webpack打包本地img图片文件时 图片加载失败 [object Module] 404 (Not Found)
+https://blog.csdn.net/Piconjo/article/details/105855172
+
+url-loader vs file-loader
+https://blog.csdn.net/zwkkkk1/article/details/88848968
