@@ -5,10 +5,15 @@ const {
 } = require('vue-loader')
 var widgetsConf = require('./widgets.conf.js');
 const CompressionPlugin = require('compression-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var prefix = widgetsConf.prefix || '';
 var widgets = widgetsConf.paths;
-var outPath = widgetsConf.out;
-var js = widgetsConf.js;
+var outPath = path.resolve(__dirname, widgetsConf.out);
+console.log(outPath)
+var js = widgetsConf.out + widgetsConf.js;
+// var css = path.resolve(__dirname,  widgetsConf.out + widgetsConf.css);
+css = widgetsConf.domain + widgetsConf.remote
+console.log(css)
 var img = widgetsConf.img;
 var alias = widgetsConf.alias;
 
@@ -37,16 +42,22 @@ var deleteFolderRecursive = function (fpath) {
 if (fs.existsSync(tmpDir)) { // 重建临时目录
   deleteFolderRecursive(tmpDir);
 }
-
+if (fs.existsSync(outPath)) { // 重建临时目录
+  deleteFolderRecursive(outPath);
+}
 fs.mkdirSync(tmpDir);
 
 // 创建临时入口文件
-var makeEntry = function (pre, entryName, filePath) {
+var makeEntryVue = function (pre, entryName, filePath) {
   var compName = pre + entryName;
   var tmpPath = path.resolve(tmpDir, entryName + '.js');
   var content = '(function(SVue){SVue.component("' + compName + '", require("../' + filePath + '").default)})(Vue);';
   fs.writeFileSync(tmpPath, content, 'utf-8');
   return tmpPath;
+};
+// 创建临时入口文件
+var makeEntryJs = function (filePath) {
+  return path.resolve(__dirname, filePath);
 };
 
 // 构造webpack打包需要的entry文件（临时）和include数组
@@ -55,38 +66,67 @@ if (!widgets || widgets.length === 0) {
 } else {
   widgets.forEach(item => {
     if (item) {
-      var m = item.match(/(\w+)\.vue$/);
-      if (!m || m.length !== 2) {
-        console.log('widget 路径定义格式不正确，请以.vue结尾！');
-      } else {
-        var entryName = m[1];
-        var entryFile = makeEntry(prefix, entryName, item);
-        // var realPath = path.resolve(__dirname, item);
+      var cmp = item.match(/(\w+)\.vue$/);
+      var app = item.match(/(\w+)\.js$/);
+      if (cmp && cmp.length === 2) {
+        var entryName = cmp[1];
+        var entryFile = makeEntryVue(prefix, entryName, item);
         includes.push(entryFile);
         entries[entryName] = entryFile;
+      } else if (app && app.length === 2) {
+        var entryName = app[1];
+        var entryFile = makeEntryJs(item);
+        includes.push(entryFile);
+        entries[entryName] = entryFile;
+      } else {
+        console.log('widget 路径定义格式不正确');
       }
     } else {
       console.error('widget 路径定义不可为空！');
     }
   });
 }
-
+// let entries1 = {};
+// entries['app'] = path.resolve(__dirname, '../src/main.js');
 module.exports = {
   // 'devtool': 'source-map',
   'mode': "development",
   'entry': entries,
   'output': {
-    'path': path.resolve(__dirname, outPath),
+    'path': outPath,
     'filename': '[name].js',
+    'chunkFilename': 'chunk/[name].[chunkhash:6].js',
     'publicPath': ''
   },
   'resolve': {
     'extensions': ['.js', '.vue'],
-    // alias: alias
+    'alias': alias
+  },
+  optimization: {
+    minimize: false,
+    splitChunks: {
+      chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 20000,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+            return `/npm/npm.${packageName.replace('@', '')}`
+          }
+        },
+        style: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true,
+        }
+      }
+    },
   },
   'module': {
-    'rules': [
-      {
+    'rules': [{
         'test': /\.vue$/,
         'loader': 'vue-loader',
       },
@@ -97,25 +137,37 @@ module.exports = {
       },
       {
         'test': /\.css$/,
-        'loader': ['style-loader','css-loader']
-      }, 
+        'use': [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // publicPath: css,
+              hmr: process.env.NODE_ENV === 'development',
+            },
+          },
+          // MiniCssExtractPlugin.loader,
+          // 'style-loader',
+          'css-loader']
+      },
       {
         'test': /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         'loader': 'file-loader',
         'options': {
-          // 'limit': 10000,
           'outputPath': img,
-          'publicPath': js + img,
+          'publicPath': widgetsConf.domain + widgetsConf.remote + img,
           'name': '[name].[ext]',
           'esModule': false,
-          postTransformPublicPath: (p) => `__webpack_require__.scope + ${p}`
+          // postTransformPublicPath: (p) => `__webpack_require__.scope + ${p}`
         }
       }
     ]
   },
   'plugins': [
-    // make sure to include the plugin for the magic
     new VueLoaderPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',
+      chunkFilename: 'css/chunk/[name].css'
+    }),
     new CompressionPlugin()
   ]
 };
