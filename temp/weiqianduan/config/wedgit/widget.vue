@@ -13,11 +13,11 @@
   let _cachedApp = {};
 
   let _loadScript = (url, callback) => {
+    // let host = url.match(/https{0,1}:\/\/[\d\w.:]+(\/#)*/);
+    // host = host ? host[0] + '/' : '';
+    // window['remotetest_domainscope'] = host
     $.ajax(url).done((data) => {
       try {
-        let host = url.match(/https{0,1}:\/\/[\d\w.:]+(\/#)*/);
-        host = host ? host[0] + '/' : '';
-        window['remotetest_domainscope'] = host
         // data = data.replace(/{/, "{__webpack_require__.scope='"+ host +"';");
         eval(data); // eslint-disable-line
         let compNames = data.match(/SVue\.component\(\\"(\w+)\\"/);
@@ -37,7 +37,41 @@
       callback(false);
     });
   };
-
+  let _loadCommon = (vm,callback) => {
+    let host = vm.url.match(/https{0,1}:\/\/[\d\w.:]+(\/#)*/);
+    host = host ? host[0] + '/' : '';
+    let dfd = $.Deferred();
+    let ready = 0
+    $.ajax(host+'apps/common.json').done((json) => {
+      // let json = JSON.parse(data)
+      for (let item of json) {
+        if (item.match(/\.js$/)) {
+          $.ajax(item).done((npmitem) => {
+            eval(npmitem);
+            ready++;
+          })
+        } else if (item.match(/\.css$/)){
+          var linkTag = document.createElement("link");
+          linkTag.rel = "stylesheet";
+          linkTag.type = "text/css";
+          linkTag.href = item;
+          var head = document.getElementsByTagName("head")[0];
+          head.appendChild(linkTag);
+          ready++;
+        } else {
+          ready++;
+        }
+      }
+      let timer = setInterval(() => {
+        if(ready == json.length) {
+          clearInterval(timer);
+          callback();
+          dfd.resolve();
+        }
+      }, 100)
+    })
+    return dfd.promise();
+  }
   let _loadWidget = (vm) => {
     let dfd = $.Deferred();
 
@@ -102,12 +136,18 @@
     created() {
       // this.path = this.$route.path;
       this.path = this.url
+      // _loadCommon(this, ()=>{
+      //   _loadWidget(this)
+      // })
+      _loadCommon(this, () => {
+        _loadWidget(this)
+      });
       // console.log(this.$router);
     },
     mounted() {
-      _loadWidget(this).done(() => {
-        // done();
-      });
+      // _loadWidget(this).done(() => {
+      //   // done();
+      // });
     }
     // route: {
     //     activate (transition) {
