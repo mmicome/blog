@@ -1,0 +1,6 @@
+原生js实现 table表格列宽拖拽
+https://blog.csdn.net/liangxw1/article/details/78144347
+https://www.cnblogs.com/yuwenjing0727/p/7723739.html
+
+for each JavaScript Support in IE?
+Array.prototype.slice.apply(dom).forEach
